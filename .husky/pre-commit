@@ -1,0 +1,2 @@
+npx nx format:write
+npx nx affected -t lint
