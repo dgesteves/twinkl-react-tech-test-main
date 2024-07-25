@@ -19,6 +19,7 @@
         "src/components/src/index.ts"
       ],
       "@twinkl-react-tech-test-main/constants": ["src/constants/src/index.ts"],
+      "@twinkl-react-tech-test-main/hooks": ["src/hooks/src/index.ts"],
       "@twinkl-react-tech-test-main/pages": ["src/pages/src/index.ts"],
       "@twinkl-react-tech-test-main/services": ["src/services/src/index.ts"],
       "@twinkl-react-tech-test-main/types": ["src/types/src/index.ts"]
