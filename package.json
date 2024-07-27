@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nx serve --host",
     "build": "nx build",
-    "preview": "nx preview",
+    "preview": "nx preview --host",
     "test": "nx test",
     "lint": "nx lint",
     "e2e": "nx e2e",
@@ -42,6 +42,7 @@
     "@swc/cli": "~0.3.12",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "15.0.6",
     "@types/lodash": "^4.17.7",
     "@types/node": "18.16.9",

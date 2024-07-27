@@ -1,27 +1,44 @@
 import { PaginatedPosts } from '@twinkl-react-tech-test-main/types';
-import { PostItem } from '../PostItem';
+import { PostGroup } from '../PostGroup';
+import { useEffect } from 'react';
+import { useCustomInView } from '@twinkl-react-tech-test-main/hooks';
+import { INTERSECTION_OBSERVER_THRESHOLD } from '@twinkl-react-tech-test-main/constants';
+import { LoadingIndicator } from '../LoadingIndicator';
 
 type PostListProps = {
   data: PaginatedPosts;
-  handleDelete: (id: number) => void;
-  removeButtonText: string;
+  searchTerm: string;
+  isLoading: boolean;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean;
+  fetchNextPage: () => void;
 };
 
 export function PostList({
   data,
-  handleDelete,
-  removeButtonText,
+  searchTerm,
+  isLoading,
+  isFetchingNextPage,
+  hasNextPage,
+  fetchNextPage,
 }: PostListProps) {
+  const { ref, inView } = useCustomInView(
+    INTERSECTION_OBSERVER_THRESHOLD,
+    isLoading || isFetchingNextPage
+  );
+
+  useEffect(() => {
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage, fetchNextPage]);
+
   return (
-    <ul style={{ listStyle: 'none', padding: 0 }}>
+    <ul className="flex flex-col gap-2 overflow-y-auto">
       {data?.pages.map((page, pageIndex) => (
-        <PostItem
-          key={pageIndex}
-          page={page}
-          handleDelete={handleDelete}
-          removeButtonText={removeButtonText}
-        />
+        <PostGroup key={pageIndex} page={page} searchTerm={searchTerm} />
       ))}
+      {hasNextPage && (
+        <LoadingIndicator ref={ref} isFetching={isFetchingNextPage} />
+      )}
     </ul>
   );
 }

@@ -14,14 +14,7 @@ export function DeleteButton({
   return (
     <button
       onClick={() => handleDelete(postId)}
-      style={{
-        backgroundColor: '#ff4d4d',
-        color: 'white',
-        border: 'none',
-        padding: '10px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-      }}
+      className="bg-red-500 text-white border-none p-2 rounded-md cursor-pointer hover:bg-red-600 hover:shadow-lg active:bg-red-700 active:shadow-lg focus:bg-red-600 focus:shadow-lg outline-none"
     >
       {children}
     </button>

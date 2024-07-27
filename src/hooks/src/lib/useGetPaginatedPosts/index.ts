@@ -6,7 +6,7 @@ import {
 } from '@twinkl-react-tech-test-main/constants';
 import { getPaginatedFilteredPosts } from '@twinkl-react-tech-test-main/services';
 
-export function usePaginatedPosts(searchTerm: string) {
+export function useGetPaginatedPosts(searchTerm: string) {
   const {
     data,
     isLoading,

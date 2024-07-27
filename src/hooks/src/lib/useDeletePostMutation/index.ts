@@ -6,7 +6,7 @@ import { Page, PaginatedPosts, Post } from '@twinkl-react-tech-test-main/types';
 export function useDeletePostMutation(searchTerm: string) {
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isError, isPending } = useMutation({
     mutationFn: deletePost,
     retry: false,
     onMutate: async (postId) => {
@@ -22,6 +22,7 @@ export function useDeletePostMutation(searchTerm: string) {
       queryClient.setQueryData(
         [POSTS_QUERY_KEY, searchTerm],
         (oldPaginatedPosts: PaginatedPosts) => {
+          console.log(oldPaginatedPosts);
           return {
             ...oldPaginatedPosts,
             pages: oldPaginatedPosts.pages.map((page: Page) => ({
@@ -34,7 +35,14 @@ export function useDeletePostMutation(searchTerm: string) {
 
       return { previousData };
     },
+    // Data should be revalidated after a successful mutation in a real-world scenario,
+    // but since the API doesn't support deleting posts, it should be omitted for this task.
+    /*onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [POSTS_QUERY_KEY, searchTerm],
+      });
+    },*/
   });
 
-  return { mutate };
+  return { mutate, isError, isPending };
 }

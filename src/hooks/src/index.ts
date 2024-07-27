@@ -1,3 +1,3 @@
-export * from './lib/usePaginatedPosts';
+export * from './lib/useGetPaginatedPosts';
 export * from './lib/useDeletePostMutation';
 export * from './lib/useCustomInView';

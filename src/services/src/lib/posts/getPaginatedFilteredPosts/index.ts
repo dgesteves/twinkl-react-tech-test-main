@@ -1,9 +1,12 @@
 import { axiosInstance } from '../../axiosInstance.ts';
 import { Page } from '@twinkl-react-tech-test-main/types';
 import {
+  ErrorLogMessages,
+  ErrorMessages,
   INITIAL_PAGE,
   POSTS,
   POSTS_PER_PAGE,
+  TOTAL_COUNT_HEADER,
 } from '@twinkl-react-tech-test-main/constants';
 
 type GetPaginatedFilteredPostsParams = {
@@ -17,7 +20,7 @@ export async function getPaginatedFilteredPosts({
   queryKey,
   postsPerPage = POSTS_PER_PAGE,
 }: GetPaginatedFilteredPostsParams): Promise<Page> {
-  const [_key, searchTerm] = queryKey;
+  const [_, searchTerm] = queryKey;
   try {
     const response = await axiosInstance.get(POSTS, {
       params: {
@@ -27,11 +30,9 @@ export async function getPaginatedFilteredPosts({
       },
     });
 
-    const totalPages = Math.ceil(
-      Number(response.headers['x-total-count']) / postsPerPage
-    );
-
-    const nextPage = pageParam + 1 > totalPages ? undefined : pageParam + 1;
+    const totalCount = Number(response.headers[TOTAL_COUNT_HEADER]);
+    const totalPages = Math.ceil(totalCount / postsPerPage);
+    const nextPage = pageParam < totalPages ? pageParam + 1 : undefined;
 
     return {
       data: response.data,
@@ -39,7 +40,7 @@ export async function getPaginatedFilteredPosts({
       totalPages,
     };
   } catch (error) {
-    console.error('Failed to fetch paginated posts:', error);
-    throw new Error('Error fetching paginated posts');
+    console.error(ErrorLogMessages.FETCH_POSTS, error);
+    throw new Error(ErrorMessages.FETCH_POSTS_ERROR);
   }
 }
